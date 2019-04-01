@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+  
+  <bean id="dsTxMgmr" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <!--  <constructor-arg ref="apacheDS"/> -->
+     <constructor-arg ref="jofb1"/>
+  </bean>
+  <tx:advice id="txAdvice" transaction-manager="dsTxMgmr">
+    <tx:attributes>
+     <tx:method name="fetchAllMedicines" read-only="true" propagation="REQUIRED"/>
+    </tx:attributes>
+  </tx:advice>
+  
+  <aop:config>
+    <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.nt.service.MedicineService.fetchAllMedicines(..))"/>
+  
+  </aop:config>
+  
+
+</beans>

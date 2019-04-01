@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	<!--  <bean id="jofb" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName" value="java:/comp/env/DsJndi"/>
+		 </bean> -->
+	<!-- Cfg DataSource -->
+	 <bean id="apacheDS" class="org.apache.commons.dbcp2.BasicDataSource"> 
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> 
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/> 
+		<property name="username" value="system"/> 
+		<property name="password" value="manager"/> 
+		</bean> 
+	
+		  
+	<jee:jndi-lookup id="jofb1"
+		jndi-name="java:/comp/env/DsJndi" />
+	<!-- Cfg JdbcTemplate -->
+	<bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate">
+		<!-- <property name="dataSource" ref="apacheDS"/> -->
+		<property name="dataSource" ref="jofb1" />
+	</bean>
+	<!-- Cfg DAO class -->
+	<bean id="medDAO" class="com.nt.dao.MedicineDAOImpl">
+		<constructor-arg ref="jt" />
+	</bean>
+
+</beans>
