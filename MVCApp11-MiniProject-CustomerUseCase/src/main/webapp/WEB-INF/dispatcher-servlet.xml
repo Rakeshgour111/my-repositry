@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- Handler Mapping Configuration -->
+	<bean id="suhm"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="welcome.htm">pvc</prop>
+				<prop key="all_customers.htm">lcc</prop>
+				<prop key="update.htm">ucc</prop>
+				<prop key="delete.htm">dcc</prop>
+				<prop key="add.htm">acc</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- Handle/Controller Classes Configurations -->
+	<bean id="pvc"
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="home" />
+	</bean>
+
+	<bean id="lcc" class="com.dj.controller.ListCustomerController">
+		<constructor-arg ref="custMgmtService" />
+	</bean>
+
+	<bean id="ucc"
+		class="com.dj.controller.UpdateCustomerController">
+		<constructor-arg ref="custMgmtService"></constructor-arg>
+		<property name="formView" value="update" />
+		<property name="commandName" value="custCmd" />
+		<property name="commandClass"
+			value="com.dj.command.CustomerCommand" />
+	</bean>
+
+	<bean id="dcc"
+		class="com.dj.controller.DeleteCustomerController">
+		<constructor-arg ref="custMgmtService" />
+	</bean>
+	<bean id="acc" class="com.dj.controller.AddCustomerController">
+		<constructor-arg ref="custMgmtService" />
+		<property name="formView" value="add" />
+		<property name="commandName" value="custCmd" />
+		<property name="commandClass"
+			value="com.dj.command.CustomerCommand" />
+			<property name="sessionForm" value="true"></property>
+	</bean>
+
+	<!-- View Resolver Configuration -->
+	<bean id="irvr"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+</beans>

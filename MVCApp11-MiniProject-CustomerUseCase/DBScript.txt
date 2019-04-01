@@ -1,0 +1,3 @@
+SQL> create table CUSTOMER_INFO(cusno number(5),cusname varchar2(30),addrs varchar2(40),mobileno number(11),billamt number(10));
+
+SQL> create sequence customer_seq start with 1001 increment by 1;
